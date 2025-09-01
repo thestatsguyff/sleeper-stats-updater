@@ -1,0 +1,30 @@
+name: Update Google Sheet
+
+on:
+  schedule:
+    # This runs every Tuesday at 8:00 AM UTC.
+    # Check https://crontab.guru to adjust the time.
+    - cron: '0 8 * * 2'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install gspread oauth2client
+
+      - name: Run Python script
+        env:
+          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+        run: python fetch_stats.py
