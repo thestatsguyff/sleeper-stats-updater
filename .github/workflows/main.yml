@@ -1,30 +1,30 @@
 name: Update Google Sheet
 
 on:
-      workflow_dispatch: # Allows you to run it manually from the Actions tab
-      schedule:
-        # This is a "cron schedule" that runs at 8:00 AM UTC every Tuesday.
-        # This is early morning in the US, after Monday Night Football is over.
-        - cron: '0 8 * * 2'
+  schedule:
+    # This runs every Tuesday at 8:00 AM UTC.
+    # Check https://crontab.guru to adjust the time.
+    - cron: '0 8 * * 2'
+  workflow_dispatch:
 
-    jobs:
-      fetch-and-update:
-        runs-on: ubuntu-latest
-        steps:
-          - name: Checkout repository code
-            uses: actions/checkout@v4
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
 
-          - name: Set up Python
-            uses: actions/setup-python@v5
-            with:
-              python-version: '3.9'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-          - name: Install necessary Python libraries
-            run: |
-              python -m pip install --upgrade pip
-              pip install pandas requests gspread oauth2client
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install gspread oauth2client
 
-          - name: Run the stats fetcher script
-            env:
-              GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
-            run: python fetch_stats.py
+      - name: Run Python script
+        env:
+          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+        run: python fetch_stats.py
