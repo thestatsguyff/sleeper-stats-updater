@@ -1,6 +1,6 @@
 name: Update Google Sheet
 
- on:
+on:
       workflow_dispatch: # Allows you to run it manually from the Actions tab
       schedule:
         # This is a "cron schedule" that runs at 8:00 AM UTC every Tuesday.
