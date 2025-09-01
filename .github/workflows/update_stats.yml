@@ -1,0 +1,30 @@
+name: Update Player Stats
+
+on:
+  workflow_dispatch:
+  # To run this on a schedule, uncomment the 'schedule' block below
+  # schedule:
+  #   - cron: '0 12 * * *' # This will run every day at 12:00 PM UTC
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Python script
+        run: python fetch_stats.py
+        env:
+          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
