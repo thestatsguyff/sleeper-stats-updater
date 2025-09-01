@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 # --- CONFIGURATION ---
 # The names of your Google Sheet and the specific worksheet
 GOOGLE_SHEET_NAME = 'NFL Player Stats'
-WORKSHEET_NAME = 'Sheet1' 
+WORKSHEET_NAME = 'Sheet1'
 
 # Your Google credentials JSON content stored as a secret.
 GOOGLE_CREDENTIALS_JSON = os.environ.get('GOOGLE_CREDENTIALS_JSON')
@@ -162,6 +162,3 @@ if __name__ == "__main__":
             print("Processed data is empty, nothing to update.")
 
     print("\nScript finished.")
-```
-
-***
